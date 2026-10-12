@@ -16,4 +16,22 @@ avisos.
 4. Execute de novo
 curl.exe -i http://localhost:8000/q10-cookies/login.php
 Explique o status, o Location e o Set-Cookie.
+
+p://localhost:8000/q10-cookies/login.php
+HTTP/1.1 302 Found
+Host: localhost:8000
+Date: Mon, 12 Oct 2026 14:49:55 GMT
+Connection: close
+X-Powered-By: PHP/8.4.25
+Set-Cookie: usuario_logado=true; expires=Mon, 12 Oct 2026 15:49:55 GMT; Max-Age=3600
+Location: dashboard.php
+Content-type: text/html; charset=UTF-8
+
+RESPOSTA:
+Location: dashboard.php: informa o endereço de destino do redirecionamento.
+
+Set-Cookie: solicita que o cliente armazene o cookie por uma hora.
+
 5. Explique por que setcookie() e header() precisam vir antes de qualquer echo.
+RESPOSTA:
+setcookie() e header() precisam vir antes do echo porque enviam cabeçalhos HTTP, que devem ser definidos antes do conteúdo da resposta.
