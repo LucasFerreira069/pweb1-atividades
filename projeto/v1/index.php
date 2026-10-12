@@ -47,6 +47,15 @@ if (isset($_GET['tema'])) {
 $outroTema = ($tema === 'claro') ? 'escuro' : 'claro';
 
 
+if (($_GET['formato'] ?? '') === 'json') {
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(
+        ['perfil' => $perfil, 'projetos' => $projetos],
+        JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+    );
+    exit;
+}
+
 
 $pagina = $_GET['pagina'] ?? 'inicio';
 $id = (int) ($_GET['id'] ?? 0);
@@ -140,6 +149,7 @@ if ($pagina === 'inicio' || $pagina === 'habilidades' || $pagina === 'projetos')
 
 <footer>
     <p>Tema atual: <?= htmlspecialchars($tema) ?></p>
+    <p><a href="?formato=json">Ver em JSON</a></p>
     <p>&copy; <?= date('Y') ?> <?= htmlspecialchars($perfil['nome']) ?></p>
 </footer>
 
