@@ -69,6 +69,26 @@ $pagina = $_GET['pagina'] ?? 'inicio';
             <li><strong>Cidade:</strong> <?= htmlspecialchars($perfil['cidade']) ?></li>
         </ul>
 
+    <?php elseif ($pagina === 'habilidades'): ?>
+
+        <h2>Habilidades</h2>
+        <p>Total de habilidades: <strong><?= count($perfil['habilidades']) ?></strong></p>
+        <p><?= htmlspecialchars(implode(', ', $perfil['habilidades'])) ?></p>
+
+    <?php elseif ($pagina === 'projetos'): ?>
+
+        <h2>Projetos</h2>
+        <div class="cartoes">
+            <?php foreach ($projetos as $id => $projeto): ?>
+                <article class="cartao">
+                    <h3><?= htmlspecialchars($projeto['titulo']) ?></h3>
+                    <p><?= htmlspecialchars($projeto['descricao']) ?></p>
+                    <p><small><?= htmlspecialchars($projeto['tecnologias']) ?></small></p>
+                    <a href="?pagina=projeto&amp;id=<?= (int) $id ?>">Ver detalhes</a>
+                </article>
+            <?php endforeach; ?>
+        </div>
+
     <?php endif; ?>
 </main>
 
