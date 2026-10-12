@@ -69,6 +69,9 @@ if ($pagina === 'inicio' || $pagina === 'habilidades' || $pagina === 'projetos')
 } else {
     http_response_code(404); // página inexistente
 }
+
+$menuAtivo = ($pagina === 'projeto') ? 'projetos' : $pagina;
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -85,10 +88,14 @@ if ($pagina === 'inicio' || $pagina === 'habilidades' || $pagina === 'projetos')
     <h1><?= htmlspecialchars($perfil['nome']) ?></h1>
     <p><?= htmlspecialchars($perfil['curso']) ?></p>
     <nav>
-        <a href="?pagina=inicio">Início</a>
-        <a href="?pagina=habilidades">Habilidades</a>
-        <a href="?pagina=projetos">Projetos</a>
-        <a href="?tema=<?= $outroTema ?>">Tema <?= $outroTema ?></a>
+        <a href="?pagina=inicio" <?= $menuAtivo === 'inicio' ? 'class="ativo" aria-current="page"' : '' ?>>Início</a>
+        <a href="?pagina=habilidades" <?= $menuAtivo === 'habilidades' ? 'class="ativo" aria-current="page"' : '' ?>>Habilidades</a>
+        <a href="?pagina=projetos" <?= $menuAtivo === 'projetos' ? 'class="ativo" aria-current="page"' : '' ?>>Projetos</a>
+         <a class="botao-tema" href="?tema=<?= $outroTema ?>" title="Mudar para tema <?= $outroTema ?>" aria-label="Mudar para tema <?= $outroTema ?>">
+            <svg class="icone-lua" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <svg class="icone-sol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            <span class="bolinha"></span>
+        </a>
     </nav>
 </header>
 
