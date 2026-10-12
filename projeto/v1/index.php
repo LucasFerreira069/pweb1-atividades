@@ -34,6 +34,20 @@ $projetos = [
     ],
 ];
 
+$tema = $_GET['tema'] ?? $_COOKIE['tema'] ?? 'claro';
+
+if ($tema !== 'claro' && $tema !== 'escuro') {
+    $tema = 'claro';
+}
+
+if (isset($_GET['tema'])) {
+    setcookie('tema', $tema, time() + 60 * 60 * 24 * 30, '/');
+}
+
+$outroTema = ($tema === 'claro') ? 'escuro' : 'claro';
+
+
+
 $pagina = $_GET['pagina'] ?? 'inicio';
 $id = (int) ($_GET['id'] ?? 0);
 
@@ -55,7 +69,7 @@ if ($pagina === 'inicio' || $pagina === 'habilidades' || $pagina === 'projetos')
     <title><?= htmlspecialchars($perfil['nome']) ?> | Perfil do Estudante</title>
     <link rel="stylesheet" href="estilo.css">
 </head>
-<body>
+<body class="tema-<?= htmlspecialchars($tema) ?>">
 
 
 <header>
@@ -65,6 +79,7 @@ if ($pagina === 'inicio' || $pagina === 'habilidades' || $pagina === 'projetos')
         <a href="?pagina=inicio">Início</a>
         <a href="?pagina=habilidades">Habilidades</a>
         <a href="?pagina=projetos">Projetos</a>
+        <a href="?tema=<?= $outroTema ?>">Tema <?= $outroTema ?></a>
     </nav>
 </header>
 
@@ -124,6 +139,7 @@ if ($pagina === 'inicio' || $pagina === 'habilidades' || $pagina === 'projetos')
 
 
 <footer>
+    <p>Tema atual: <?= htmlspecialchars($tema) ?></p>
     <p>&copy; <?= date('Y') ?> <?= htmlspecialchars($perfil['nome']) ?></p>
 </footer>
 
