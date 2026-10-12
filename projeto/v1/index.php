@@ -35,6 +35,17 @@ $projetos = [
 ];
 
 $pagina = $_GET['pagina'] ?? 'inicio';
+$id = (int) ($_GET['id'] ?? 0);
+
+if ($pagina === 'inicio' || $pagina === 'habilidades' || $pagina === 'projetos') {
+    // páginas que existem: o status continua 200
+} elseif ($pagina === 'projeto') {
+    if (!isset($projetos[$id])) {
+        http_response_code(404); // projeto inexistente
+    }
+} else {
+    http_response_code(404); // página inexistente
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -88,6 +99,25 @@ $pagina = $_GET['pagina'] ?? 'inicio';
                 </article>
             <?php endforeach; ?>
         </div>
+
+    <?php elseif ($pagina === 'projeto' && isset($projetos[$id])): ?>
+
+        <h2><?= htmlspecialchars($projetos[$id]['titulo']) ?></h2>
+        <p><?= htmlspecialchars($projetos[$id]['descricao']) ?></p>
+        <p><strong>Tecnologias:</strong> <?= htmlspecialchars($projetos[$id]['tecnologias']) ?></p>
+        <p><a href="?pagina=projetos">&larr; Voltar para projetos</a></p>
+
+    <?php elseif ($pagina === 'projeto'): ?>
+
+        <h2>Projeto não encontrado</h2>
+        <p>Não existe projeto com esse número.</p>
+        <p><a href="?pagina=projetos">&larr; Voltar para projetos</a></p>
+
+    <?php else: ?>
+
+        <h2>Página não encontrada</h2>
+        <p>A página que você pediu não existe.</p>
+        <p><a href="?pagina=inicio">&larr; Voltar ao início</a></p>
 
     <?php endif; ?>
 </main>
