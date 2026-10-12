@@ -11,7 +11,7 @@ $perfil = [
         'PostgreSQL',
         'JavaScript',
         'Python',
-        'Git, Git hub',
+        'Git/Git hub',
         'Docker',
     ],
 ];
