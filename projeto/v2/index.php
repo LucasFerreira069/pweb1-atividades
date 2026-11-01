@@ -169,6 +169,7 @@ $perfil->adicionarProjeto(new Projeto(
     'HTML, CSS, JavaScript, Git/GitHub'
 ));
 
+
 $projetos = [
     1 => [
         'titulo'      => 'VANTAGE',
@@ -203,7 +204,7 @@ $outroTema = ($tema === 'claro') ? 'escuro' : 'claro';
 if (($_GET['formato'] ?? '') === 'json') {
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode(
-        ['perfil' => $perfil, 'projetos' => $projetos],
+        $perfil->paraArray(),
         JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
     );
     exit;
@@ -301,7 +302,7 @@ if ($pagina === 'inicio' || $pagina === 'habilidades' || $pagina === 'projetos')
         <h2><?= htmlspecialchars($titulo) ?></h2>
         <p>Não existe projeto com esse número.</p>
         <p><a href="?pagina=projetos">&larr; Voltar para projetos</a></p>
-        
+
     <?php else: ?>
 
         <h2>Página não encontrada</h2>
