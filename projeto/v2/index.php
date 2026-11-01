@@ -142,22 +142,32 @@ class Perfil
 }
 
 
-$perfil = [
-    'nome'        => 'Lucas Ferreira da Silva Filho',
-    'curso'       => 'Análise e Desenvolvimento de Sistemas',
-    'campus'      => 'IFCE Campus Boa Viagem',
-    'cidade'      => 'Boa viagem - CE',
-    'apresentacao' => 'Olá! Meu nome é Lucas, sou estudante de Análise e Desenvolvimento de Sistemas. Gosto de programar em Python e JavaScript e estou sempre buscando aprender novas tecnologias e aprimorar minhas habilidades. Meu objetivo é me tornar um desenvolvedor Full Stack',
-    'habilidades' => [
-        'HTML',
-        'CSS',
-        'PostgreSQL',
-        'JavaScript',
-        'Python',
-        'Git/Git hub',
-        'Docker',
-    ],
-];
+$perfil = new Perfil(
+    'Lucas Ferreira da Silva Filho',
+    'Análise e Desenvolvimento de Sistemas',
+    'IFCE Campus Boa Viagem',
+    'Boa viagem - CE',
+    'Olá! Meu nome é Lucas, sou estudante de Análise e Desenvolvimento de Sistemas. Gosto de programar em Python e JavaScript e estou sempre buscando aprender novas tecnologias e aprimorar minhas habilidades. Meu objetivo é me tornar um desenvolvedor Full Stack',
+    ['HTML', 'CSS', 'PostgreSQL', 'JavaScript', 'Python', 'Git', 'GitHub', 'Docker']
+);
+
+$perfil->adicionarProjeto(new Projeto(
+    'VANTAGE',
+    'APP para gestão financeira de pequenos empresários.',
+    'FastAPI, Python, PostgreSQL, Docker, Git/GitHub'
+));
+
+$perfil->adicionarProjeto(new Projeto(
+    'Estoque-app',
+    'Sistema web voltado para pequenos comércios, com o objetivo de ter um controle de estoque.',
+    'Node.js, JWT, SQLite, Git/GitHub'
+));
+
+$perfil->adicionarProjeto(new Projeto(
+    'Sistema de pedidos para uma pizzaria',
+    'Sistema de pedidos online para pizzaria, com catálogo de produtos, carrinho de compras e geração automática de pedidos formatados para envio via WhatsApp.',
+    'HTML, CSS, JavaScript, Git/GitHub'
+));
 
 $projetos = [
     1 => [
@@ -221,15 +231,15 @@ $menuAtivo = ($pagina === 'projeto') ? 'projetos' : $pagina;
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= htmlspecialchars($perfil['nome']) ?> | Perfil do Estudante</title>
+    <title><?= htmlspecialchars($perfil->getNome()) ?> | Perfil do Estudante</title>
     <link rel="stylesheet" href="estilo.css">
 </head>
 <body class="tema-<?= htmlspecialchars($tema) ?>">
 
 
 <header>
-    <h1><?= htmlspecialchars($perfil['nome']) ?></h1>
-    <p><?= htmlspecialchars($perfil['curso']) ?></p>
+    <h1><?= htmlspecialchars($perfil->getNome()) ?></h1>
+    <p><?= htmlspecialchars($perfil->getCurso()) ?></p>
     <nav>
         <a href="?pagina=inicio" <?= $menuAtivo === 'inicio' ? 'class="ativo" aria-current="page"' : '' ?>>Início</a>
         <a href="?pagina=habilidades" <?= $menuAtivo === 'habilidades' ? 'class="ativo" aria-current="page"' : '' ?>>Habilidades</a>
@@ -247,28 +257,28 @@ $menuAtivo = ($pagina === 'projeto') ? 'projetos' : $pagina;
     <?php if ($pagina === 'inicio'): ?>
 
         <h2>Sobre mim</h2>
-        <p><?= htmlspecialchars($perfil['apresentacao']) ?></p>
+        <p><?= htmlspecialchars($perfil->getApresentacao()) ?></p>
         <ul>
-            <li><strong>Curso:</strong> <?= htmlspecialchars($perfil['curso']) ?></li>
-            <li><strong>Campus:</strong> <?= htmlspecialchars($perfil['campus']) ?></li>
-            <li><strong>Cidade:</strong> <?= htmlspecialchars($perfil['cidade']) ?></li>
+            <li><strong>Curso:</strong> <?= htmlspecialchars($perfil->getCurso()) ?></li>
+            <li><strong>Campus:</strong> <?= htmlspecialchars($perfil->getCampus()) ?></li>
+            <li><strong>Cidade:</strong> <?= htmlspecialchars($perfil->getCidade()) ?></li>
         </ul>
 
     <?php elseif ($pagina === 'habilidades'): ?>
 
         <h2>Habilidades</h2>
-        <p>Total de habilidades: <strong><?= count($perfil['habilidades']) ?></strong></p>
-        <p><?= htmlspecialchars(implode(', ', $perfil['habilidades'])) ?></p>
+        <p>Total de habilidades: <strong><?= count($perfil->getHabilidades()) ?></strong></p>
+        <p><?= htmlspecialchars(implode(', ', $perfil->getHabilidades())) ?></p>
 
     <?php elseif ($pagina === 'projetos'): ?>
 
         <h2>Projetos</h2>
         <div class="cartoes">
-            <?php foreach ($projetos as $id => $projeto): ?>
+            <?php foreach ($perfil->getProjetos() as $id => $projeto): ?>
                 <article class="cartao">
-                    <h3><?= htmlspecialchars($projeto['titulo']) ?></h3>
-                    <p><?= htmlspecialchars($projeto['descricao']) ?></p>
-                    <p><small><?= htmlspecialchars($projeto['tecnologias']) ?></small></p>
+                    <h3><?= htmlspecialchars($projeto->getTitulo()) ?></h3>
+                    <p><?= htmlspecialchars($projeto->getDescricao()) ?></p>
+                    <p><small><?= htmlspecialchars($projeto->getTecnologias()) ?></small></p>
                     <a href="?pagina=projeto&amp;id=<?= (int) $id ?>">Ver detalhes</a>
                 </article>
             <?php endforeach; ?>
@@ -300,7 +310,7 @@ $menuAtivo = ($pagina === 'projeto') ? 'projetos' : $pagina;
 <footer>
     <p>Tema atual: <?= htmlspecialchars($tema) ?></p>
     <p><a href="?formato=json">Ver em JSON</a></p>
-    <p>&copy; <?= date('Y') ?> <?= htmlspecialchars($perfil['nome']) ?></p>
+    <p>&copy; <?= date('Y') ?> <?= htmlspecialchars($perfil->getNome()) ?></p>
 </footer>
 
 </body>
