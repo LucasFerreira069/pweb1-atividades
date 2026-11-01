@@ -213,17 +213,22 @@ if (($_GET['formato'] ?? '') === 'json') {
 $pagina = $_GET['pagina'] ?? 'inicio';
 $id = (int) ($_GET['id'] ?? 0);
 
+$menuAtivo = ($pagina === 'projeto') ? 'projetos' : $pagina;
+
 if ($pagina === 'inicio' || $pagina === 'habilidades' || $pagina === 'projetos') {
-    // páginas que existem: o status continua 200
+
 } elseif ($pagina === 'projeto') {
-    if (!isset($projetos[$id])) {
-        http_response_code(404); // projeto inexistente
+    try {
+        $projetoAtual = $perfil->getProjeto($id);
+        $titulo = $projetoAtual->getTitulo();
+    } catch (Exception $e) {
+        http_response_code(404);
+        $pagina = 'nao-encontrado';
+        $titulo = $e->getMessage();
     }
 } else {
-    http_response_code(404); // página inexistente
+    http_response_code(404);
 }
-
-$menuAtivo = ($pagina === 'projeto') ? 'projetos' : $pagina;
 
 ?>
 <!DOCTYPE html>
@@ -284,19 +289,19 @@ $menuAtivo = ($pagina === 'projeto') ? 'projetos' : $pagina;
             <?php endforeach; ?>
         </div>
 
-    <?php elseif ($pagina === 'projeto' && isset($projetos[$id])): ?>
+        <?php elseif ($pagina === 'projeto'): ?>
 
-        <h2><?= htmlspecialchars($projetos[$id]['titulo']) ?></h2>
-        <p><?= htmlspecialchars($projetos[$id]['descricao']) ?></p>
-        <p><strong>Tecnologias:</strong> <?= htmlspecialchars($projetos[$id]['tecnologias']) ?></p>
+        <h2><?= htmlspecialchars($titulo) ?></h2>
+        <p><?= htmlspecialchars($projetoAtual->getDescricao()) ?></p>
+        <p><strong>Tecnologias:</strong> <?= htmlspecialchars($projetoAtual->getTecnologias()) ?></p>
         <p><a href="?pagina=projetos">&larr; Voltar para projetos</a></p>
 
-    <?php elseif ($pagina === 'projeto'): ?>
+    <?php elseif ($pagina === 'nao-encontrado'): ?>
 
-        <h2>Projeto não encontrado</h2>
+        <h2><?= htmlspecialchars($titulo) ?></h2>
         <p>Não existe projeto com esse número.</p>
         <p><a href="?pagina=projetos">&larr; Voltar para projetos</a></p>
-
+        
     <?php else: ?>
 
         <h2>Página não encontrada</h2>
