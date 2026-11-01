@@ -1,7 +1,7 @@
 1. Leia o código e responda à análise do respostas.md: quais linhas são HTML, quais são
 PHP, e a diferença entre <?php echo e <?=.
 
-RESPOSTA: Tudo que está foda do <?php> é html e tudo que está dentro de <?php> é php.
+RESPOSTA: Tudo que está fora do <?php> é html e tudo que está dentro de <?php> é php.
 
 
 2. Abra http://localhost:8000/q01-primeiro-script/ola.php no navegador. Copie

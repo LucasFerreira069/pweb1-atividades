@@ -7,6 +7,7 @@ no lugar de =1. Abra a página outra vez e copie o log.
 4. Compare o status registrado no log nas duas execuções e explique a diferença.
 5. Volte o servidor para display_errors=1, corrija o erro, teste e faça um commit.
 
+
 log 1:
 [Wed Oct  7 18:24:22 2026] [::1]:51723 Accepted
 [Wed Oct  7 18:24:22 2026] [::1]:51723 [200]: GET /erro.php
